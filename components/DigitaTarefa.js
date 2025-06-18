@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, TextInput, View, StyleSheet } from "react-native";
+import { Button, TextInput, View, StyleSheet, Image } from "react-native";
 import Toast from 'react-native-toast-message';
 
 function DigitaTarefa(props) {
@@ -32,9 +32,9 @@ function DigitaTarefa(props) {
         if (textoTarefa === "") {
             Toast.show({
                 type: 'error',
-                text1: 'Erro!',
-                text2: 'Precisa digitar o texto da tarefa!',
-                position: 'bottom'
+                text1: 'Erro! Precisa digitar o texto da tarefa!',
+                // text2: 'Precisa digitar o texto da tarefa!',
+                position: 'bottom' //top, center...
             });
         }
         else {
@@ -49,47 +49,53 @@ function DigitaTarefa(props) {
 
 
     return (
-        <View style={styles.inputContainer}>
-
-            <TextInput
-                style={styles.textInput}
-                placeholder='Digite sua tarefa'
-                // Função chamada quanto o texto é alterado:
-                onChangeText={goalInputHandler}
-                // O value abaixo faz com que o valor exibido no campo de texto
-                // seja controlado pela variável ('getter') textoTarefa:
-                value={textoTarefa}
-            />
-            <Button
-                title="Criar Tarefa"
-                // Ao clicar no botão, chama a função adicionaTarefa
-                // criada e explicada acima:
-                onPress={adicionaTarefa}
-            />
+        <View style={styles.containerExterno}>
+            <View style={styles.containerInterno}>
+                <Image
+                    source={require('../assets/imagem.png')}
+                    style={styles.imagem}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder='Digite sua tarefa'
+                    onChangeText={goalInputHandler}
+                    value={textoTarefa}
+                />
+                <Button
+                    title="Criar Tarefa"
+                    onPress={adicionaTarefa}
+                />
+            </View>
         </View>
     );
+
 };
 export default DigitaTarefa;
 
 // Estilos CSS trazidos lá de App.js:
-const styles = StyleSheet.create(
-    {
-        inputContainer: {
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderBottomWidth: 2,
-            borderBottomColor: '#cccccc',
-            marginBottom: 10
-        },
-        textInput: {
-            borderWidth: 1,
-            borderColor: '#cccccc',
-            width: '70%',
-            marginRight: 8,
-            padding: 8
-        }
+const styles = StyleSheet.create({
+    containerExterno: {
+        marginBottom: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: '#000',
+        paddingBottom: 10,
     },
-);
-
+    containerInterno: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 40
+    },
+    imagem: {
+        width: 40,
+        height: 40,
+        marginRight: 8,
+    },
+    input: {
+        flex: 1,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 8,
+        marginRight: 8,
+        borderRadius: 4,
+    }
+});

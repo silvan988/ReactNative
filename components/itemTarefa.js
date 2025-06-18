@@ -1,12 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+
 function ItemTarefa(props) {
     return (
-        <View style={styles.goalItem}>
-            <Text
-                style={styles.goalText}>
-                {props.itemtexto}
-            </Text>
-        </View>
+        <Pressable onPress={props.aoApagar.bind(null, props.id)}>
+            <View style={styles.goalItem}>
+                <Text
+                    style={styles.goalText}>
+                    {props.texto}
+                </Text>
+            </View>
+        </Pressable>
     );
 };
 export default ItemTarefa;

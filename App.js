@@ -1,6 +1,8 @@
 import { StyleSheet, View, FlatList } from 'react-native';
+
 import { useState } from 'react';
 import ItemTarefa from './components/itemTarefa';
+
 import DigitaTarefa from './components/DigitaTarefa';
 import Toast from 'react-native-toast-message';
 
@@ -24,6 +26,20 @@ export default function App() {
         ]);
     }
 
+    function apagaTarefa(id) {
+        const tarefa = listaTarefas.find(t => t.id === id);
+        setListaTarefas((listaAtual) => {
+            return listaAtual.filter((tarefa) => tarefa.id !== id);
+        });
+
+        Toast.show({
+            type: 'info',
+            text1: 'Informação',
+            text2: `O item "${tarefa.text}" foi apagado.`,
+            position: 'bottom'
+        });
+    }
+
     return (
         <View style={styles.appContainer}>
 
@@ -36,18 +52,21 @@ export default function App() {
                     data={listaTarefas}
                     keyExtractor={(item, index) => { return item.id; }}
                     renderItem={(itemData) => {
-                        return <ItemTarefa itemtexto={itemData.item.text} />;
-                        {/* itemtexto vem de itemTarefa.js, "props.itemtexto" */}
+                        return <ItemTarefa
+                            texto={itemData.item.text}
+                            id={itemData.item.id}
+                            aoApagar={apagaTarefa}
+                        />;
                     }}
                 />
             </View>
 
             <Toast />
-            
+
         </View>
     );
 }
- const styles = StyleSheet.create(
+const styles = StyleSheet.create(
     {
         appContainer: {
             flex: 1,
@@ -58,4 +77,4 @@ export default function App() {
             flex: 5
         }
     },
- )
+)
