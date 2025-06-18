@@ -1,6 +1,7 @@
 import { Button, ScrollView, StyleSheet, Text, TextInput, View, FlatList } from 'react-native';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import ItemTarefa from './components/itemTarefa';
 
 
 export default function App() {
@@ -45,13 +46,9 @@ export default function App() {
                     // A função recebe por parâmetro o conteúdo do item a ser renderizado
                     // (elemento do array listaTarefas indicado acima), e retorna o JSX.
                     renderItem={(itemData) => {
-                        return (
-                            <View style={styles.goalItem}>
-                                <Text style={styles.goalText}>
-                                    {itemData.item.text}
-                                </Text>
-                            </View>
-                        );
+
+                         return <ItemTarefa itemtexto={itemData.item.text} />;
+
                     }}
 
                     keyExtractor={(item, index) => {
@@ -91,17 +88,6 @@ const styles = StyleSheet.create(
         },
         goalsContainer: {
             flex: 5
-        },
-        goalItem: {
-            margin: 8,
-            padding: 8,
-            borderRadius: 6,
-            backgroundColor: '#487d76'
-        },
-        goalText: {
-            fontSize: 20,
-            color: 'white'
         }
-
     },
 );
