@@ -2,6 +2,8 @@ import { StyleSheet, View, FlatList } from 'react-native';
 import { useState } from 'react';
 import ItemTarefa from './components/itemTarefa';
 import DigitaTarefa from './components/DigitaTarefa';
+import Toast from 'react-native-toast-message';
+
 
 export default function App() {
 
@@ -24,9 +26,11 @@ export default function App() {
 
     return (
         <View style={styles.appContainer}>
+
             {/* Insere aqui o componente DigitaTarefa, passando a função */}
             {/* adicionaTarefa criada acima via props onAdicionaTarefa:  */}
             <DigitaTarefa onAdicionaTarefa={adicionaTarefa} />
+
             <View style={styles.goalsContainer}>
                 <FlatList
                     data={listaTarefas}
@@ -37,6 +41,9 @@ export default function App() {
                     }}
                 />
             </View>
+
+            <Toast />
+            
         </View>
     );
 }

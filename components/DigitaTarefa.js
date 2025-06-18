@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, TextInput, View, StyleSheet } from "react-native";
+import Toast from 'react-native-toast-message';
 
 function DigitaTarefa(props) {
     // Estado para armazenar o que foi digitado na caixa
@@ -26,18 +27,30 @@ function DigitaTarefa(props) {
     // passando pra ela por parâmetro o texto da tarefa digitada.
     // Aproveitamos para esvaziar o estado com o texto da tarefa,
     // para deixar a caixa vazia para a próxima digitação.
+
     function adicionaTarefa() {
-        // Chamando a função criada lá em App.js, e enviada via props.
-        // Passando o texto da tarefa por parâmetro:
-        props.onAdicionaTarefa(textoTarefa);
-        // Esvaziando a caixa de texto:
-        setTextoTarefa('');
+        if (textoTarefa === "") {
+            Toast.show({
+                type: 'error',
+                text1: 'Erro!',
+                text2: 'Precisa digitar o texto da tarefa!',
+                position: 'bottom'
+            });
+        }
+        else {
+            // Chamando a função criada lá em App.js, e enviada via props.
+            // Passando o texto da tarefa por parâmetro:
+            props.onAdicionaTarefa(textoTarefa);
+            // Esvaziando a caixa de texto:
+            setTextoTarefa('');
+        }
     }
+
 
 
     return (
         <View style={styles.inputContainer}>
-            
+
             <TextInput
                 style={styles.textInput}
                 placeholder='Digite sua tarefa'
