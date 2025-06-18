@@ -1,24 +1,21 @@
-import { Button, ScrollView, StyleSheet, Text, TextInput, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import { useState } from 'react';
-import { useEffect } from 'react';
 import ItemTarefa from './components/itemTarefa';
-
+import DigitaTarefa from './components/DigitaTarefa';
 
 export default function App() {
-
-    // Estado para armazenar o que foi digitado na caixa:
-    const [textoTarefa, setTextoTarefa] = useState('');
 
     // Estado para armazenar a lista de tarefas:
     const [listaTarefas, setListaTarefas] = useState([]);
 
-    function goalInputHandler(textoDigitado) {
-        // Quando o texto muda na caixa, o novo texto é armazenado
-        // no estado criado acima:
-        setTextoTarefa(textoDigitado);
-    }
+    // Função que usa o setter do estado listaTarefas para inserir
+    // o texto da tarefa, recebido por parâmetro, na lista.
+    // Esta função será passada para o componente DigitaTarefa via
+    // props 'onAdicionaTarefa' para que o texto digitado lá neste
+    // componente seja adicionado na lista de tarefas que está aqui
+    // em App.js:
 
-    function adicionaTarefa() {
+    function adicionaTarefa(textoTarefa) {
         setListaTarefas(listaAtual => [
             ...listaAtual,
             { text: textoTarefa, id: Math.random().toString() }
@@ -27,67 +24,31 @@ export default function App() {
 
     return (
         <View style={styles.appContainer}>
-            <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.textInput}
-                    placeholder='Digite sua tarefa'
-                    onChangeText={goalInputHandler} />
-                <Button
-                    title="Criar Tarefa"
-                    onPress={adicionaTarefa} />
-            </View>
+            {/* Insere aqui o componente DigitaTarefa, passando a função */}
+            {/* adicionaTarefa criada acima via props onAdicionaTarefa:  */}
+            <DigitaTarefa onAdicionaTarefa={adicionaTarefa} />
             <View style={styles.goalsContainer}>
                 <FlatList
-                    // prop data: a fonte de dados da lista.
-                    // Neste exemplo, nosso array em listaTarefas:
                     data={listaTarefas}
-                    // prop renderItem: função responsável por renderizar 
-                    //                  cada item da lista.
-                    // A função recebe por parâmetro o conteúdo do item a ser renderizado
-                    // (elemento do array listaTarefas indicado acima), e retorna o JSX.
+                    keyExtractor={(item, index) => { return item.id; }}
                     renderItem={(itemData) => {
-
-                         return <ItemTarefa itemtexto={itemData.item.text} />;
-
-                    }}
-
-                    keyExtractor={(item, index) => {
-                        return item.id;
+                        return <ItemTarefa itemtexto={itemData.item.text} />;
+                        {/* itemtexto vem de itemTarefa.js, "props.itemtexto" */}
                     }}
                 />
-
             </View>
-
-
         </View>
     );
 }
-const styles = StyleSheet.create(
+ const styles = StyleSheet.create(
     {
         appContainer: {
             flex: 1,
             paddingTop: 50,
             paddingHorizontal: 16
         },
-        inputContainer: {
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderBottomWidth: 2,
-            borderBottomColor: '#cccccc',
-            marginBottom: 10
-        },
-
-        textInput: {
-            borderWidth: 1,
-            borderColor: '#cccccc',
-            width: '65%',
-            marginRight: 8,
-            padding: 8
-        },
         goalsContainer: {
             flex: 5
         }
     },
-);
+ )
